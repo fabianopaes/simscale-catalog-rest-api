@@ -13,13 +13,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
+    @NotNull(message = "Username might not be null")
     private String username;
 
-    @NotNull
+    @NotNull(message = "firstName might not be null")
     private String firstName;
 
-    @NotNull
+    @NotNull(message = "lastName might not be null")
     private String lastName;
 
     public User(){}
