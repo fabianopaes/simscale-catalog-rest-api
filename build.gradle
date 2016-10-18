@@ -1,0 +1,58 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath('org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE')
+        classpath('se.transmode.gradle:gradle-docker:1.2')
+    }
+}
+
+ext {
+    springBootVersion = "1.4.0.RELEASE"
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'docker'
+
+group = 'com.simscale'
+
+jar {
+    baseName = 'catalog-rest-api'
+    version =  '1.0.0'
+}
+
+// tag::task[]
+task buildDocker(type: Docker, dependsOn: build) {
+  push = true
+  applicationName = jar.baseName
+  dockerfile = file('src/main/docker/Dockerfile')
+  doFirst {
+    copy {
+      from jar
+      into stageDir
+    }
+  }
+}
+// end::task[]
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
+    compile group: 'javax.validation', name: 'validation-api', version: '1.1.0.Final'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springBootVersion
+    compile group: 'org.hsqldb', name: 'hsqldb', version: '2.2.9'
+    compile group: 'com.google.guava', name: 'guava', version: '11.0.2'
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
