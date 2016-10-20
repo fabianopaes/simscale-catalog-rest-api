@@ -24,11 +24,10 @@ jar {
     version =  '1.0.0'
 }
 
-// tag::task[]
 task buildDocker(type: Docker, dependsOn: build) {
   push = true
   applicationName = jar.baseName
-  dockerfile = file('src/main/docker/Dockerfile')
+  dockerfile = file('Dockerfile')
   doFirst {
     copy {
       from jar
@@ -36,7 +35,6 @@ task buildDocker(type: Docker, dependsOn: build) {
     }
   }
 }
-// end::task[]
 
 repositories {
     mavenCentral()
