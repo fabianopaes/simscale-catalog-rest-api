@@ -1,80 +1,121 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: http://docs.simscalecatalogrestapi.apiblueprint.org/
 
 # User's Catalog REST API
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+User's catalog rest api is a simple API developed for SimScale  test
 
-## Questions Collection [/questions]
+## Users Collection [/v1/users]
 
-### List All Questions [GET]
+Retrieve all users from database
+
+### List All Users [GET]
 
 + Response 200 (application/json)
 
         [
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
+                "username": "username1",
+                "firstName": "firstName1",
+                "lastName": "lastName1",
+            },
+            {
+                "username": "username2",
+                "firstName": "firstName2",
+                "lastName": "lastName2",
+            },
+            {
+                "username": "username3",
+                "firstName": "firstName3",
+                "lastName": "lastName3",
+            },
+            {
+                "username": "username4",
+                "firstName": "firstName4",
+                "lastName": "lastName4",
+            }                                    
         ]
 
-### Create a New Question [POST]
+### Create a New User [POST]
 
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+You may create your own User using this action. It takes a JSON
+object containing an user.
 
 + Request (application/json)
 
         {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
+            "username": "new-username",
+            "firstName": "new-firstName",
+            "lastName": "new-lastName"           
         }
 
 + Response 201 (application/json)
 
     + Headers
 
-            Location: /questions/2
+            Location: /v1/users/1
 
     + Body
 
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
+                "username": "new-username",
+                "firstName": "new-firstName",
+                "lastName": "new-lastName"
             }
+
+## Users [/v1/users/{userId}]
+
+### Retrieve an User [GET]
+
+Retrieving all information about a single user.
+
++ Parameters
+
+    + userId (number) ... user's identifier      
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "username": "username",
+                "firstName": "firstName",
+                "lastName": "lastName"
+            }
+
+### Update an existing User [PUT]
+
++ Parameters
+
+    + userId (number) ... user's identifier  
+
+
++ Request (application/json)
+
+        {
+            "username": "updated-username",
+            "firstName": "updated-firstName",
+            "lastName": "updated-lastName"           
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /v1/users/1
+
+    + Body
+
+            {
+                "username": "updated-username",
+                "firstName": "updated-firstName",
+                "lastName": "updated-lastName"
+            } 
+
+### Delete an existing User in the database [DELETE]
+
++ Parameters
+
+    + userId (number) ... user's identifier        
+
++ Response 200
